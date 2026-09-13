@@ -114,6 +114,20 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
+### Path parameters
+
+Some routes have path parameters (ie `/users/{id}`) and those are recorded.
+If you want to record the literal route instead, 
+wrap that route's handler with
+`plainoldanalytics.UseRequestPath`.
+
+``` go
+router.Handle("/{wildcard...}", plainoldanalytics.UseRequestPath(http.FileServer(http.Dir("public"))))
+```
+
+Works the same way under gin (`gin.WrapH(plainoldanalytics.UseRequestPath(handler))`)
+and chi.
+
 ## Frameworks
 
 ### Gin

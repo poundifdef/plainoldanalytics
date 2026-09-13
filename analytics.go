@@ -51,6 +51,16 @@ func Exclude(ctx context.Context) {
 	capture.Exclude(ctx)
 }
 
+// UseRequestPath wraps next so requests it serves are recorded under their
+// actual URL path instead of the matched route pattern. Wrap a single route
+// or an entire group that serves many distinct resources behind one
+// wildcard — a static file server, for example — so each file shows up
+// individually in the dashboard instead of collapsing into one
+// "/{wildcard...}" row.
+func UseRequestPath(next http.Handler) http.Handler {
+	return capture.UseRequestPath(next)
+}
+
 // Mount registers the dashboard and its subpages on router. The path may have
 // a trailing slash or omit it. Requests to the slashless path redirect to the
 // dashboard root; both the redirect and dashboard exclude themselves from capture.

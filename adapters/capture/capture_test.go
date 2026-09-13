@@ -134,6 +134,42 @@ func TestExclude(t *testing.T) {
 	}
 }
 
+// TestUseRequestPath covers the static-site case: one wildcard route
+// ("/{wildcard...}") serves many distinct files, so recording the matched
+// pattern for every request would collapse them all into a single row.
+// UseRequestPath, wrapped around the handler for that one route, makes
+// Serve record each file's actual path instead.
+func TestUseRequestPath(t *testing.T) {
+	store := &recordingStorage{}
+	cp := New(store, storage.NewConfig())
+	files := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("file: " + r.URL.Path))
+	})
+	handler := UseRequestPath(files)
+
+	for _, path := range []string{"/index.html", "/about.html", "/css/app.css"} {
+		cp.Serve(httptest.NewRecorder(), httptest.NewRequest("GET", path, nil), "/{wildcard...}", handler)
+	}
+
+	if len(store.captures) != 3 {
+		t.Fatalf("captures: %d, want 3", len(store.captures))
+	}
+	for i, want := range []string{"/index.html", "/about.html", "/css/app.css"} {
+		if got := store.captures[i].Pattern; got != want {
+			t.Errorf("capture %d: pattern = %q, want %q", i, got, want)
+		}
+		if len(store.captures[i].PathValues) != 0 {
+			t.Errorf("capture %d: path values = %v, want none (literal path has no wildcards)", i, store.captures[i].PathValues)
+		}
+	}
+}
+
+// TestUseRequestPathOutsideMiddlewareIsNoop mirrors Exclude and Set: calling
+// the underlying context toggle with no capture in play must not panic.
+func TestUseRequestPathOutsideMiddlewareIsNoop(t *testing.T) {
+	useRequestPath(context.Background())
+}
+
 func TestSetWithDerivedContextAndRequestIsolation(t *testing.T) {
 	store := &recordingStorage{}
 	cp := New(store, storage.NewConfig())

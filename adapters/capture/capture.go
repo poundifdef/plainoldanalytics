@@ -28,9 +28,10 @@ import (
 // context so that any handler below the middleware can attach context
 // values via Set.
 type carrier struct {
-	mu       sync.Mutex
-	vals     map[string]string
-	excluded bool
+	mu             sync.Mutex
+	vals           map[string]string
+	excluded       bool
+	useRequestPath bool
 }
 
 type carrierKey struct{}
@@ -65,6 +66,38 @@ func Exclude(ctx context.Context) {
 	car.mu.Lock()
 	defer car.mu.Unlock()
 	car.excluded = true
+}
+
+// UseRequestPath marks the current request to be recorded under its actual
+// URL path instead of the matched route pattern. Call it from a handler or
+// middleware before returning, outside analytics middleware it is a no-op.
+// Prefer the UseRequestPath middleware below to apply this to a whole route
+// or group without touching handler code — the common case, since the
+// handler behind a wildcard route is often one you don't control (e.g.
+// http.FileServer).
+func useRequestPath(ctx context.Context) {
+	car, ok := ctx.Value(carrierKey{}).(*carrier)
+	if !ok {
+		return
+	}
+	car.mu.Lock()
+	defer car.mu.Unlock()
+	car.useRequestPath = true
+}
+
+// UseRequestPath wraps next so that requests it serves are recorded under
+// their actual URL path instead of the matched route pattern. Register it
+// on a single route or an entire group that serves many distinct resources
+// behind one wildcard — a static file server, for example — so each file
+// shows up individually in the dashboard instead of collapsing into one
+// "/{wildcard...}" row. Works under any adapter: net/http (wrap the handler
+// registered on the route), gin (gin.WrapH(UseRequestPath(handler))), and
+// chi (same, or router.With/Group).
+func UseRequestPath(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		useRequestPath(r.Context())
+		next.ServeHTTP(w, r)
+	})
 }
 
 // Capturer captures request/response data and records it to a Storage.
@@ -116,6 +149,11 @@ func (cp *Capturer) Serve(w http.ResponseWriter, r *http.Request, pattern string
 	if car.excluded {
 		car.mu.Unlock()
 		return
+	}
+	if car.useRequestPath {
+		// The literal path has no wildcards to extract path values from,
+		// so PathValues below naturally returns none for it.
+		pattern = r.URL.Path
 	}
 	if len(car.vals) > 0 {
 		ctxVals = car.vals
