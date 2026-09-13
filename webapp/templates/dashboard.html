@@ -1,0 +1,85 @@
+{{define "title"}}Overview — Plain Old Analytics{{end}}
+{{define "page-title"}}Overview{{end}}
+
+{{define "content"}}
+{{if .Empty}}
+<div class="first-run">
+	<div class="fr-title">No traffic yet</div>
+	<div class="fr-body">The dashboard is mounted and reachable. It will start filling in as soon as a request passes through the capture middleware.</div>
+	<div class="fr-steps">
+		<div class="fr-step">
+			<div class="mark">&#10003;</div>
+			<div>
+				<div class="fr-step-title">Dashboard mounted</div>
+				<div class="fr-step-body">You're looking at it — this page is being served by your app.</div>
+			</div>
+		</div>
+		<div class="fr-step">
+			<div class="mark">&#10003;</div>
+			<div>
+				<div class="fr-step-title">Storage connected</div>
+				<div class="fr-step-body">Nothing written yet for the selected range.</div>
+			</div>
+		</div>
+		<div class="fr-step">
+			<div class="mark">&#9675;</div>
+			<div>
+				<div class="fr-step-title">Wrap your routes</div>
+				<div class="fr-step-body">Requests are only captured through the middleware.</div>
+				<pre>analytics.Middleware(router)</pre>
+			</div>
+		</div>
+		<div class="fr-step">
+			<div class="mark">&#9675;</div>
+			<div>
+				<div class="fr-step-title">Add the frontend snippet</div>
+				<div class="fr-step-body">Optional — enables session replay and custom events. See <a class="link" href="settings">Settings</a>.</div>
+			</div>
+		</div>
+	</div>
+</div>
+{{else}}
+<div class="kpis">
+	<div class="kpi"><div class="label">Views</div><div class="value">{{.Views}}</div></div>
+	<div class="kpi"><div class="label">Visitors</div><div class="value">{{.Visitors}}</div></div>
+	<div class="kpi"><div class="label">Sessions</div><div class="value">{{.Sessions}}</div></div>
+	<div class="kpi"><div class="label">Avg. session</div><div class="value">{{.AvgSession}}</div></div>
+	<div class="kpi"><div class="label">Events</div><div class="value">{{.Events}}</div></div>
+</div>
+
+<div class="chart-card">
+	<h2>Requests &middot; {{.Range.Label}}</h2>
+	<svg viewBox="0 0 720 170" class="chart" role="img" aria-label="Requests over time">
+		{{range .Bars}}
+		<g>
+			<title>{{.Label}}: {{.Count}}</title>
+			<rect x="{{.X}}" y="{{.Y}}" width="{{.W}}" height="{{.H}}" class="bar"/>
+		</g>
+		{{end}}
+		<line x1="0" y1="150" x2="720" y2="150" class="axis"/>
+	</svg>
+	<div class="chart-axis">
+		{{range $i, $b := .Bars}}{{if eq (mod $i 4) 0}}<span>{{$b.Label}}</span>{{end}}{{end}}
+	</div>
+</div>
+
+<div class="cards">
+	{{range .Cards}}
+	<section class="card">
+		<h3><span>{{.Title}}</span></h3>
+		{{if .Rows}}
+		<ol class="toplist">
+			{{range .Rows}}
+			<li>
+				<span class="fill" style="width: {{.W}}%"></span>
+				<span class="name" title="{{.Name}}">{{if .Link}}<a href="{{.Link}}">{{.Name}}</a>{{else}}{{.Name}}{{end}}</span>
+				<span class="count">{{.Count}}</span>
+			</li>
+			{{end}}
+		</ol>
+		{{else}}<p class="empty">No data yet</p>{{end}}
+	</section>
+	{{end}}
+</div>
+{{end}}
+{{end}}

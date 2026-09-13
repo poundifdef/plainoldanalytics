@@ -1,0 +1,70 @@
+{{define "title"}}Request {{.T.ID}} — Plain Old Analytics{{end}}
+{{define "page-title"}}Request{{end}}
+
+{{define "content"}}
+<a class="back-link" href="traffic">&larr; Traffic</a>
+
+<dl class="facts">
+	<dt>ID</dt><dd class="mono">{{.T.ID}}</dd>
+	<dt>Time</dt><dd>{{.T.Time.Format "2006-01-02 15:04:05.000"}}</dd>
+	<dt>Method</dt><dd>{{.T.Method}}</dd>
+	<dt>Pattern</dt><dd class="mono">{{.T.Pattern}}</dd>
+	<dt>Status</dt><dd class="{{if ge .T.Status 500}}status-err{{else if ge .T.Status 400}}status-warn{{else if ge .T.Status 300}}status-redirect{{end}}">{{.T.Status}}</dd>
+	<dt>Size</dt><dd>{{.T.Size}}</dd>
+	<dt>Duration</dt><dd>{{.T.Duration}}</dd>
+	<dt>IP</dt><dd class="mono">{{.T.IP}}</dd>
+	{{with index .T.Context .UserKey}}
+	<dt>User</dt><dd><a class="link" href="users/{{.}}">{{.}}</a></dd>
+	{{end}}
+	<dt>Visitor</dt><dd>{{with .T.Visitor}}<a class="link mono" href="visitors/{{.}}">{{.}}</a>{{else}}—{{end}}</dd>
+	<dt>Session</dt><dd class="mono">{{with .T.Session}}{{.}}{{else}}—{{end}}</dd>
+</dl>
+
+<h2 class="section-title">Context</h2>
+{{if .T.Context}}
+<div class="table-wrap"><table class="data">
+	<thead><tr><th>Name</th><th>Value</th></tr></thead>
+	<tbody>
+		{{range $k, $v := .T.Context}}
+		<tr><td class="mono">{{$k}}</td><td class="mono">{{$v}}</td></tr>
+		{{end}}
+	</tbody>
+</table></div>
+{{else}}<div class="empty">None.</div>{{end}}
+
+<h2 class="section-title">Query params</h2>
+{{if .T.QueryParams}}
+<div class="table-wrap"><table class="data">
+	<thead><tr><th>Name</th><th>Values</th></tr></thead>
+	<tbody>
+		{{range $k, $vs := .T.QueryParams}}
+		<tr><td class="mono">{{$k}}</td><td class="mono">{{range $vs}}{{.}} {{end}}</td></tr>
+		{{end}}
+	</tbody>
+</table></div>
+{{else}}<div class="empty">None.</div>{{end}}
+
+<h2 class="section-title">Path params</h2>
+{{if .T.PathParams}}
+<div class="table-wrap"><table class="data">
+	<thead><tr><th>Name</th><th>Value</th></tr></thead>
+	<tbody>
+		{{range $k, $v := .T.PathParams}}
+		<tr><td class="mono">{{$k}}</td><td class="mono">{{$v}}</td></tr>
+		{{end}}
+	</tbody>
+</table></div>
+{{else}}<div class="empty">None.</div>{{end}}
+
+<h2 class="section-title">Headers</h2>
+{{if .T.Headers}}
+<div class="table-wrap"><table class="data">
+	<thead><tr><th>Name</th><th>Values</th></tr></thead>
+	<tbody>
+		{{range $k, $vs := .T.Headers}}
+		<tr><td class="mono">{{$k}}</td><td class="mono">{{range $vs}}{{.}} {{end}}</td></tr>
+		{{end}}
+	</tbody>
+</table></div>
+{{else}}<div class="empty">None.</div>{{end}}
+{{end}}

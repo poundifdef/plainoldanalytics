@@ -1,0 +1,52 @@
+{{define "title"}}Settings — Plain Old Analytics{{end}}
+{{define "page-title"}}Settings{{end}}
+{{define "content-class"}}narrow{{end}}
+
+{{define "content"}}
+<div class="settings-card">
+	<h3>Frontend snippet</h3>
+	<div class="body">
+		<p>Serve this from any page you want session replay and custom events on. The script is served by the dashboard itself.</p>
+		<pre>{{.Snippet}}</pre>
+		<p style="margin-top:8px;font-size:11.5px">Select the snippet above to copy it.</p>
+	</div>
+</div>
+
+<div class="settings-card">
+	<h3>Capture</h3>
+	<div class="setting-row">
+		<div>
+			<div class="label">User attribute key</div>
+			<div class="help">Context key the dashboard treats as the user.</div>
+		</div>
+		<div class="val"><span class="pill">{{.Config.UserKey}}</span></div>
+	</div>
+	<div class="setting-row">
+		<div>
+			<div class="label">Visitor tracking</div>
+			<div class="help">Long-lived cookie that links a returning visitor's traffic.</div>
+		</div>
+		<div class="val">
+			{{if .Config.VisitorCookie}}<span class="pill on">{{.Config.VisitorCookie}}</span>{{else}}<span class="pill off">disabled</span>{{end}}
+		</div>
+	</div>
+	<div class="setting-row">
+		<div>
+			<div class="label">Session tracking</div>
+			<div class="help">Session-only cookie used to derive sessions and replay.</div>
+		</div>
+		<div class="val">
+			{{if .Config.SessionCookie}}<span class="pill on">{{.Config.SessionCookie}}</span>{{else}}<span class="pill off">disabled</span>{{end}}
+		</div>
+	</div>
+	<div class="setting-row">
+		<div>
+			<div class="label">Session boundary</div>
+			<div class="help">Sessions come from the session cookie itself, not an inactivity timeout — a browser close ends one.</div>
+		</div>
+		<div class="val"><span class="pill off">cookie-based</span></div>
+	</div>
+</div>
+
+<p style="color:var(--muted);font-size:11.5px">This page is read-only for now — capture options are set in code via <code>storage.NewConfig</code>.</p>
+{{end}}

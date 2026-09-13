@@ -1,0 +1,64 @@
+{{define "title"}}Replay — Plain Old Analytics{{end}}
+{{define "page-title"}}Session replay{{end}}
+{{define "content-class"}}flush{{end}}
+
+{{define "content"}}
+<div class="replay-shell">
+	<div class="replay-stage">
+		<div class="replay-player-wrap">
+			{{if .S.HasReplay}}
+			<link rel="stylesheet" href="static/vendor/rrweb.css">
+			<link rel="stylesheet" href="static/vendor/rrweb-player.css">
+			<div id="player" class="replay"></div>
+			<script src="static/vendor/rrweb-player.min.js"></script>
+			<script>
+			fetch('sessions/{{.S.Visitor}}/{{.S.Start.UnixMicro}}/replay.json')
+				.then(function (r) { return r.json(); })
+				.then(function (events) {
+					var target = document.getElementById('player');
+					if (!events || events.length < 2) {
+						target.textContent = 'Not enough replay data yet.';
+						return;
+					}
+					var Player = window.rrwebPlayer.default || window.rrwebPlayer;
+					var width = Math.min(target.clientWidth || 1024, 1400);
+					var height = Math.max(360, Math.min(window.innerHeight - 300, 900));
+					new Player({
+						target: target,
+						props: {
+							events: events,
+							width: width,
+							height: height,
+							autoPlay: false,
+							showController: true,
+						},
+					});
+				});
+			</script>
+			{{else}}
+			<div class="empty">No replay recorded for this session.</div>
+			{{end}}
+		</div>
+	</div>
+	<div class="replay-sidebar">
+		<div class="rs-head">
+			<a class="back-link" href="sessions/{{.S.Visitor}}/{{.S.Start.UnixMicro}}" style="margin-bottom:8px">&larr; Session</a>
+			<div class="user">{{with .S.Annotation}}{{.}}{{else}}Anonymous visitor{{end}}</div>
+			<div class="visitor">{{.S.Visitor}}</div>
+			<div class="meta">{{.S.Start.Format "Jan 2 15:04"}} &middot; {{.S.End.Sub .S.Start}} &middot; {{.S.TrafficCount}} requests &middot; {{.S.EventCount}} events</div>
+		</div>
+		<div class="replay-timeline">
+			{{range .Timeline}}
+			<div class="tl-row">
+				<span class="tl-at">{{.At.Format "15:04:05"}}</span>
+				<span class="tl-dot {{.Kind}}">&#9679;</span>
+				<div>
+					<div class="tl-label{{if eq .Kind "req"}} mono{{else if eq .Kind "err"}} mono{{end}}">{{.Label}}</div>
+					{{with .Sub}}<div class="tl-sub">{{.}}</div>{{end}}
+				</div>
+			</div>
+			{{end}}
+		</div>
+	</div>
+</div>
+{{end}}

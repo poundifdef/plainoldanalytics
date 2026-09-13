@@ -1,0 +1,9 @@
+go 1.26.4
+
+use (
+	.
+	./adapters/gin
+	./adapters/http
+	./storage/duckdb_store
+	./webapp
+)

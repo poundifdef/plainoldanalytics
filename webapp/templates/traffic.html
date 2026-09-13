@@ -1,0 +1,54 @@
+{{define "title"}}Traffic — Plain Old Analytics{{end}}
+{{define "page-title"}}Traffic{{end}}
+
+{{define "content"}}
+<form method="get" action="traffic" class="filterbar">
+	<input name="pattern" placeholder="route pattern" value="{{.Filter.Pattern}}">
+	<input name="status" placeholder="status" value="{{with .Filter.Status}}{{.}}{{end}}" size="4">
+	<input name="user" placeholder="user" value="{{.UserFilter}}">
+	<input name="visitor" placeholder="visitor id" value="{{with .Filter.Visitor}}{{.}}{{end}}">
+	<input name="key" placeholder="context key" value="{{.Filter.ContextKey}}">
+	<input name="value" placeholder="context value" value="{{.Filter.ContextValue}}">
+	<button>Filter</button>
+	<a class="clear" href="traffic">Reset filters</a>
+</form>
+
+<div class="summary">
+	<span>{{len .Rows}} request{{if ne (len .Rows) 1}}s{{end}}</span>
+</div>
+
+<div class="table-wrap">
+{{if .Rows}}
+<table class="data">
+	<thead>
+		<tr>
+			<th>Time</th>
+			<th>Method</th>
+			<th>Route</th>
+			<th>Status</th>
+			<th class="num">Latency</th>
+			<th class="num">Size</th>
+			<th title="One browser, identified by a long-lived cookie. A visitor can have many sessions.">Visitor</th>
+			<th title="Your app's identity for this visitor (e.g. an email), set via capture.Set. One user can have several visitors — different browsers or devices.">User</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{range .Rows}}
+		<tr>
+			<td class="time"><a class="row-link" href="traffic/{{.ID}}">{{.Time.Format "15:04:05"}}</a></td>
+			<td><a class="row-link" href="traffic/{{.ID}}">{{.Method}}</a></td>
+			<td class="mono"><a class="row-link" href="traffic/{{.ID}}">{{.Pattern}}</a></td>
+			<td class="{{if ge .Status 500}}status-err{{else if ge .Status 400}}status-warn{{else if ge .Status 300}}status-redirect{{else}}status-ok{{end}}"><a class="row-link" href="traffic/{{.ID}}">{{.Status}}</a></td>
+			<td class="num"><a class="row-link" href="traffic/{{.ID}}">{{.Duration}}</a></td>
+			<td class="num"><a class="row-link" href="traffic/{{.ID}}">{{.Size}}</a></td>
+			<td class="mono">{{with .Visitor}}<a class="link mono" href="visitors/{{.}}">{{.}}</a>{{else}}—{{end}}</td>
+			<td>{{with index .Context $.UserKey}}<a class="link" href="users/{{.}}">{{.}}</a>{{else}}—{{end}}</td>
+		</tr>
+		{{end}}
+	</tbody>
+</table>
+{{else}}
+<div class="empty">No requests match these filters in this window.</div>
+{{end}}
+</div>
+{{end}}

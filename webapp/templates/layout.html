@@ -1,0 +1,47 @@
+{{define "layout"}}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="{{.Root}}">
+<title>{{block "title" .}}Plain Old Analytics{{end}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+<div class="shell">
+	<div class="sidebar">
+		<a class="brand" href=".">Plain Old Analytics</a>
+		<nav>
+			{{$nav := .Nav}}
+			<a href="." {{if eq $nav "overview"}}class="active"{{end}}>Overview</a>
+			<a href="traffic" {{if eq $nav "traffic"}}class="active"{{end}}>Traffic</a>
+			<a href="sessions" {{if eq $nav "sessions"}}class="active"{{end}}>Sessions</a>
+			<a href="events" {{if eq $nav "events"}}class="active"{{end}}>Events</a>
+			<a href="settings" {{if eq $nav "settings"}}class="active"{{end}}>Settings</a>
+		</nav>
+		<div class="live"><span class="dot"></span><span>Live</span></div>
+	</div>
+
+	<div class="main">
+		<div class="topbar">
+			<div class="title-group">
+				<h1>{{block "page-title" .}}{{end}}</h1>
+				{{with .Crumb}}<span class="crumb">{{.}}</span>{{end}}
+			</div>
+			{{if .Ranges}}
+			<div class="ranges">
+				{{$cur := .Range.Key}}
+				{{range .Ranges}}<a href="?{{$.RangeParam}}range={{.Key}}"{{if eq .Key $cur}} class="active"{{end}}>{{.Label}}</a>{{end}}
+			</div>
+			{{end}}
+		</div>
+		<div class="content {{block "content-class" .}}{{end}}">
+{{block "content" .}}{{end}}
+		</div>
+	</div>
+</div>
+</body>
+</html>{{end}}

@@ -1,0 +1,56 @@
+{{define "title"}}Visitor — Plain Old Analytics{{end}}
+{{define "page-title"}}Visitor{{end}}
+{{define "content-class"}}medium{{end}}
+
+{{define "content"}}
+<div class="visitor-head">
+	<div>
+		<h1 class="mono" title="One browser, identified by a long-lived cookie.">visitor {{.VisitorID}}</h1>
+		<div class="sub">{{if .User}}user <a class="link" href="users/{{.User}}">{{.User}}</a>{{else}}no known user{{end}}</div>
+	</div>
+	<a class="btn" href="traffic?visitor={{.VisitorID}}">All requests from this visitor</a>
+</div>
+
+<div class="vstats">
+	{{range .Stats}}
+	<div class="kpi"><div class="label">{{.Label}}</div><div class="value">{{.Value}}</div></div>
+	{{end}}
+</div>
+
+<div class="visitor-grid">
+	<div class="card">
+		<h3><span>Sessions</span></h3>
+		{{if .Sessions}}
+		<div class="session-list">
+			{{range .Sessions}}
+			<a href="sessions/{{.Visitor}}/{{.Start.UnixMicro}}">
+				<div>
+					<div>{{.Start.Format "2006-01-02 15:04:05"}}</div>
+					<div class="meta">{{.End.Sub .Start}} &middot; {{.TrafficCount}} reqs &middot; {{.EventCount}} events</div>
+				</div>
+				{{if .HasReplay}}<span class="link">&#9654; replay</span>{{end}}
+			</a>
+			{{end}}
+		</div>
+		{{else}}<p class="empty">No sessions.</p>{{end}}
+	</div>
+
+	<div class="card">
+		<h3><span>Activity</span></h3>
+		{{if .Activity}}
+		<div class="replay-timeline" style="max-height:640px">
+			{{range .Activity}}
+			<div class="tl-row">
+				<span class="tl-at">{{.At.Format "15:04:05"}}</span>
+				<span class="tl-dot {{.Kind}}">&#9679;</span>
+				<div>
+					<div class="tl-label{{if ne .Kind "ev"}} mono{{end}}">{{.Label}}</div>
+					{{with .Sub}}<div class="tl-sub">{{.}}</div>{{end}}
+				</div>
+			</div>
+			{{end}}
+		</div>
+		{{else}}<p class="empty">No activity.</p>{{end}}
+	</div>
+</div>
+{{end}}

@@ -1,0 +1,4 @@
+/plainoldanalytics
+plainoldanalytics.duckdb
+plainoldanalytics.duckdb.wal
+plainoldanalytics.sqlite

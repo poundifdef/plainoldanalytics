@@ -1,0 +1,59 @@
+{{define "title"}}Events — Plain Old Analytics{{end}}
+{{define "page-title"}}Events{{end}}
+{{define "content-class"}}flush{{end}}
+
+{{define "content"}}
+<div class="events-shell">
+	<div class="event-names">
+		<div class="label">Event name</div>
+		{{if .Names}}
+		{{range .Names}}
+		<a href="events?name={{.Name}}"{{if eq .Name $.Selected}} class="active"{{end}}>
+			<span>{{.Name}}</span>
+			<span class="count">{{.Count}}</span>
+		</a>
+		{{end}}
+		{{else}}<p class="empty" style="padding:8px 6px">None yet</p>{{end}}
+	</div>
+
+	<div class="events-main">
+		<form method="get" action="events" class="filterbar">
+			{{if .Selected}}<input type="hidden" name="name" value="{{.Selected}}">{{end}}
+			<input name="visitor" placeholder="visitor id" value="{{with .Filter.Visitor}}{{.}}{{end}}">
+			<button>Filter</button>
+			<a class="clear" href="events">Reset filters</a>
+		</form>
+
+		<div class="summary">
+			<span>{{len .Events}} of {{.Total}} events{{with .Selected}} &middot; {{.}}{{end}}</span>
+		</div>
+
+		<div class="table-wrap">
+		{{if .Events}}
+		<table class="data">
+			<thead>
+				<tr><th>Time</th><th>Name</th><th title="The user if known, otherwise the raw visitor id.">User</th><th>Props</th><th>Page</th></tr>
+			</thead>
+			<tbody>
+				{{range .Events}}
+				<tr>
+					<td class="time">{{.Time.Format "15:04:05"}}</td>
+					<td class="mono">{{.Name}}</td>
+					<td>{{if .User}}<a class="link" href="users/{{.User}}">{{.User}}</a>{{else if .Visitor}}<a class="link mono" href="visitors/{{.Visitor}}">{{.Visitor}}</a>{{else}}—{{end}}</td>
+					<td>
+						<span class="props">
+							{{range $k, $v := .Props}}<span class="prop"><span class="k">{{$k}}</span><span class="v">{{$v}}</span></span>{{end}}
+						</span>
+					</td>
+					<td class="mono">{{.Path}}</td>
+				</tr>
+				{{end}}
+			</tbody>
+		</table>
+		{{else}}
+		<div class="empty">No events match. Track some with <code>plainoldanalytics.track('name', {...})</code> via <code>e.js</code> — see <a class="link" href="settings">Settings</a>.</div>
+		{{end}}
+		</div>
+	</div>
+</div>
+{{end}}

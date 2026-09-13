@@ -1,0 +1,55 @@
+{{define "title"}}Sessions — Plain Old Analytics{{end}}
+{{define "page-title"}}Sessions{{end}}
+
+{{define "content"}}
+<form method="get" action="sessions" class="filterbar">
+	<input name="user" placeholder="user" value="{{.UserFilter}}">
+	<input name="visitor" placeholder="visitor id" value="{{with .Filter.Visitor}}{{.}}{{end}}">
+	<input name="key" placeholder="context key" value="{{.Filter.ContextKey}}">
+	<input name="value" placeholder="context value" value="{{.Filter.ContextValue}}">
+	<input name="event" placeholder="with event" value="{{.Filter.EventName}}">
+	{{if .Tab}}<input type="hidden" name="tab" value="{{.Tab}}">{{end}}
+	<button>Filter</button>
+	<a class="clear" href="sessions">Reset filters</a>
+</form>
+
+<div class="summary">
+	<div class="tabs">
+		<a href="?{{.TabParam}}tab=" {{if not .Tab}}class="active"{{end}}>All</a>
+		<a href="?{{.TabParam}}tab=replay" {{if eq .Tab "replay"}}class="active"{{end}}>Has replay</a>
+		<a href="?{{.TabParam}}tab=events" {{if eq .Tab "events"}}class="active"{{end}}>Has events</a>
+	</div>
+	<span>{{len .Sessions}} of {{.Total}} sessions</span>
+</div>
+
+<div class="table-wrap">
+{{if .Sessions}}
+<table class="data">
+	<thead>
+		<tr>
+			<th title="One session is one visit — it ends when the browser session ends.">Started</th>
+			<th title="The user if known (links to all of their sessions across every visitor/device), otherwise the raw visitor id (links to that one device).">User</th>
+			<th class="num">Length</th>
+			<th class="num">Requests</th>
+			<th class="num">Events</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{{range $s := .Sessions}}
+		<tr>
+			<td class="time"><a class="row-link" href="sessions/{{$s.Visitor}}/{{$s.Start.UnixMicro}}">{{$s.Start.Format "2006-01-02 15:04:05"}}</a></td>
+			<td>{{if $s.Annotation}}<a class="link" href="users/{{$s.Annotation}}">{{$s.Annotation}}</a>{{else}}<a class="link mono" href="visitors/{{$s.Visitor}}">{{$s.Visitor}}</a>{{end}}</td>
+			<td class="num">{{$s.End.Sub $s.Start}}</td>
+			<td class="num">{{$s.TrafficCount}}</td>
+			<td class="num">{{$s.EventCount}}</td>
+			<td>{{if $s.HasReplay}}<a class="link" href="sessions/{{$s.Visitor}}/{{$s.Start.UnixMicro}}/replay">&#9654; replay</a>{{end}}</td>
+		</tr>
+		{{end}}
+	</tbody>
+</table>
+{{else}}
+<div class="empty">No sessions match.</div>
+{{end}}
+</div>
+{{end}}

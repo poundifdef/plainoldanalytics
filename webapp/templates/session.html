@@ -1,0 +1,56 @@
+{{define "title"}}Session — Plain Old Analytics{{end}}
+{{define "page-title"}}Session{{end}}
+
+{{define "content"}}
+<a class="back-link" href="sessions">&larr; Sessions</a>
+
+<dl class="facts">
+	{{if .S.Annotation}}
+	<dt>User</dt><dd><a class="link" href="users/{{.S.Annotation}}">{{.S.Annotation}}</a></dd>
+	{{end}}
+	<dt>Visitor</dt><dd><a class="link mono" href="visitors/{{.S.Visitor}}">{{.S.Visitor}}</a></dd>
+	<dt>Start</dt><dd>{{.S.Start.Format "2006-01-02 15:04:05"}}</dd>
+	<dt>End</dt><dd>{{.S.End.Format "2006-01-02 15:04:05"}}</dd>
+	<dt>Length</dt><dd>{{.S.End.Sub .S.Start}}</dd>
+	<dt>Requests</dt><dd>{{.S.TrafficCount}}</dd>
+	<dt>Events</dt><dd>{{.S.EventCount}}</dd>
+</dl>
+
+{{if .S.HasReplay}}
+<p><a class="btn primary" href="sessions/{{.S.Visitor}}/{{.S.Start.UnixMicro}}/replay">&#9654; Watch replay</a></p>
+{{end}}
+
+<h2 class="section-title">Events</h2>
+{{if .Events}}
+<div class="table-wrap"><table class="data">
+	<thead><tr><th>Time</th><th>Name</th><th>Props</th><th>Page</th></tr></thead>
+	<tbody>
+		{{range .Events}}
+		<tr>
+			<td class="time">{{.Time.Format "15:04:05"}}</td>
+			<td class="mono">{{.Name}}</td>
+			<td><span class="props">{{range $k, $v := .Props}}<span class="prop"><span class="k">{{$k}}</span><span class="v">{{$v}}</span></span>{{end}}</span></td>
+			<td class="mono">{{.Path}}</td>
+		</tr>
+		{{end}}
+	</tbody>
+</table></div>
+{{else}}<div class="empty">None.</div>{{end}}
+
+<h2 class="section-title">Requests</h2>
+{{if .Traffic}}
+<div class="table-wrap"><table class="data">
+	<thead><tr><th>Time</th><th>Method</th><th>Route</th><th>Status</th></tr></thead>
+	<tbody>
+		{{range .Traffic}}
+		<tr>
+			<td class="time"><a class="link" href="traffic/{{.ID}}">{{.Time.Format "15:04:05"}}</a></td>
+			<td>{{.Method}}</td>
+			<td class="mono">{{.Pattern}}</td>
+			<td class="{{if ge .Status 500}}status-err{{else if ge .Status 400}}status-warn{{else if ge .Status 300}}status-redirect{{end}}">{{.Status}}</td>
+		</tr>
+		{{end}}
+	</tbody>
+</table></div>
+{{else}}<div class="empty">None.</div>{{end}}
+{{end}}
