@@ -191,6 +191,9 @@ type Storage interface {
 	// recording order (a derived session's window).
 	Replay(ctx context.Context, visitor uint64, from, to time.Time) ([]ReplayChunk, error)
 	Sessions(ctx context.Context, f SessionFilter) ([]Session, error)
+	// Close releases the storage's resources, flushing any buffered data
+	// first. A no-op for storage that needs no cleanup.
+	Close() error
 }
 
 // IdentityStore is optionally implemented by storage backends that can turn

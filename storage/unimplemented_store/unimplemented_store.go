@@ -41,3 +41,4 @@ func (Unimplemented) Replay(context.Context, uint64, time.Time, time.Time) ([]st
 func (Unimplemented) Sessions(context.Context, storage.SessionFilter) ([]storage.Session, error) {
 	return []storage.Session{}, nil
 }
+func (Unimplemented) Close() error { return nil }

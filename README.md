@@ -34,6 +34,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
     analytics := memory_store.PlainOldAnalytics()
+    defer analytics.Close()
 
     router := http.NewServeMux()
     router.HandleFunc("/", handler)

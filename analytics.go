@@ -9,7 +9,6 @@ package plainoldanalytics
 
 import (
 	"context"
-	"io"
 	"net/http"
 	"strings"
 
@@ -100,8 +99,5 @@ func (a *Analytics) Middleware(next http.Handler) http.Handler {
 // data first. Only meaningful for storage that outlives a single process
 // run, such as DuckDB on disk; a no-op otherwise.
 func (a *Analytics) Close() error {
-	if c, ok := a.capturer.Storage.(io.Closer); ok {
-		return c.Close()
-	}
-	return nil
+	return a.capturer.Storage.Close()
 }
