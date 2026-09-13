@@ -10,6 +10,13 @@ It does the following:
 - Frontend browser session recording 
 - Built-in dashboard
 
+<p>
+  <a href="screenshots/dashboard.png"><img src="screenshots/dashboard.png" width="24%" alt="Overview: KPIs, a requests chart, and breakdown cards for pages, referrers, browsers, and OS"></a>
+  <a href="screenshots/http_logs.png"><img src="screenshots/http_logs.png" width="24%" alt="Traffic: filterable table of logged HTTP requests"></a>
+  <a href="screenshots/screen_recording.png"><img src="screenshots/screen_recording.png" width="24%" alt="Session replay: recorded browser session with an events timeline"></a>
+  <a href="screenshots/user_activity.png"><img src="screenshots/user_activity.png" width="24%" alt="User: sessions and activity feed for one identified user"></a>
+</p>
+
 The core `plainoldanalytics` package is storage-agnostic — it knows nothing
 about DuckDB or any other backend, so importing it never pulls one in. Pick a
 storage package and use its `PlainOldAnalytics` constructor to get both a
@@ -108,15 +115,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 ```
 
 ## Frameworks
-
-net/http is the default; adapters for gin and chi exist because both
-frameworks route requests without net/http's own mechanism for that, so a
-generic net/http middleware can't see the matched route pattern the way
-`Mount`/`Middleware` above do. Each adapter is the same shape as `Analytics`
-itself, just split into pieces: `New(analytics.Capturer())` gives you the
-framework's middleware, and the dashboard mounts as a plain `http.Handler`
-alongside it — outside the middleware, so its own requests aren't recorded
-as traffic.
 
 ### Gin
 
