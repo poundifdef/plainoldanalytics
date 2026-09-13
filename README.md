@@ -106,3 +106,88 @@ func handler(w http.ResponseWriter, r *http.Request) {
     w.Write([]byte("hello"))
 }
 ```
+
+## Frameworks
+
+net/http is the default; adapters for gin and chi exist because both
+frameworks route requests without net/http's own mechanism for that, so a
+generic net/http middleware can't see the matched route pattern the way
+`Mount`/`Middleware` above do. Each adapter is the same shape as `Analytics`
+itself, just split into pieces: `New(analytics.Capturer())` gives you the
+framework's middleware, and the dashboard mounts as a plain `http.Handler`
+alongside it — outside the middleware, so its own requests aren't recorded
+as traffic.
+
+### Gin
+
+```go
+package main
+
+import (
+    "log"
+    "net/http"
+
+    "github.com/gin-gonic/gin"
+    ginadapter "jaygoel.com/plainoldanalytics/adapters/gin"
+    "jaygoel.com/plainoldanalytics/storage/memory_store"
+)
+
+func main() {
+    analytics := memory_store.PlainOldAnalytics()
+    defer analytics.Close()
+
+    router := gin.New()
+
+    // Scope the middleware to a group so the dashboard, mounted below
+    // outside it, isn't recorded as traffic.
+    app := router.Group("/", ginadapter.New(analytics.Capturer()).Handle)
+    app.GET("/hello/:name", func(c *gin.Context) {
+        c.String(http.StatusOK, "hello "+c.Param("name"))
+    })
+
+    mux := http.NewServeMux()
+    analytics.Mount(mux, "/analytics")
+    dashboard := gin.WrapH(mux)
+    router.Any("/analytics", dashboard)
+    router.Any("/analytics/*any", dashboard)
+
+    log.Fatal(router.Run(":8080"))
+}
+```
+
+### Chi
+
+```go
+package main
+
+import (
+    "log"
+    "net/http"
+
+    "github.com/go-chi/chi/v5"
+    chiadapter "jaygoel.com/plainoldanalytics/adapters/chi"
+    "jaygoel.com/plainoldanalytics/storage/memory_store"
+)
+
+func main() {
+    analytics := memory_store.PlainOldAnalytics()
+    defer analytics.Close()
+
+    router := chi.NewRouter()
+
+    // Group scopes the middleware so the dashboard, mounted below outside
+    // it, isn't recorded as traffic.
+    router.Group(func(r chi.Router) {
+        r.Use(chiadapter.New(analytics.Capturer()).Wrap)
+        r.Get("/hello/{name}", func(w http.ResponseWriter, r *http.Request) {
+            w.Write([]byte("hello " + chi.URLParam(r, "name")))
+        })
+    })
+
+    mux := http.NewServeMux()
+    analytics.Mount(mux, "/analytics")
+    router.Mount("/analytics", mux)
+
+    log.Fatal(http.ListenAndServe(":8080", router))
+}
+```

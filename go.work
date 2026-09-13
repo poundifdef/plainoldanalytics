@@ -2,6 +2,7 @@ go 1.26.4
 
 use (
 	.
+	./adapters/chi
 	./adapters/gin
 	./adapters/http
 	./storage/duckdb_store

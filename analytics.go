@@ -95,6 +95,14 @@ func (a *Analytics) Middleware(next http.Handler) http.Handler {
 	return httpadapter.New(a.capturer).Wrap(next)
 }
 
+// Capturer returns the capture engine backing this Analytics, for framework
+// adapters (e.g. adapters/gin, adapters/chi) that need it directly instead
+// of the net/http-shaped Middleware — so the adapter's middleware and the
+// dashboard always share the same storage and configuration.
+func (a *Analytics) Capturer() *capture.Capturer {
+	return a.capturer
+}
+
 // Close releases the underlying storage's resources, flushing any buffered
 // data first. Only meaningful for storage that outlives a single process
 // run, such as DuckDB on disk; a no-op otherwise.
