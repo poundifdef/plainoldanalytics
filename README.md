@@ -17,8 +17,12 @@ It does the following:
   <a href="screenshots/user_activity.png"><img src="screenshots/user_activity.png" width="24%" alt="User: sessions and activity feed for one identified user"></a>
 </p>
 
+All packages, including the adapters, storage backends, and dashboard, belong to
+the single `jaygoel.com/go/plainoldanalytics` module and share one release version.
+Package import paths remain under that prefix; no submodule replacements are needed.
+
 The core `plainoldanalytics` package is storage-agnostic — it knows nothing
-about DuckDB or any other backend, so importing it never pulls one in. Pick a
+about DuckDB or any other backend, so importing it does not link a backend into your binary. Pick a
 storage package and use its `PlainOldAnalytics` constructor to get both a
 working `Storage` and the `Analytics` wiring in one call, or implement the
 `Storage` interface yourself and pass it to `plainoldanalytics.New`.
