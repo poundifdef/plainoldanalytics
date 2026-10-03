@@ -21,7 +21,7 @@ import (
 	"sync"
 	"time"
 
-	"jaygoel.com/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage"
 )
 
 // carrier is the mutable per-request container Serve seeds into the request

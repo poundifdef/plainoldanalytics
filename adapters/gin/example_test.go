@@ -5,10 +5,10 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"jaygoel.com/plainoldanalytics/adapters/capture"
-	ginadapter "jaygoel.com/plainoldanalytics/adapters/gin"
-	"jaygoel.com/plainoldanalytics/storage"
-	"jaygoel.com/plainoldanalytics/storage/unimplemented_store"
+	"jaygoel.com/go/plainoldanalytics/adapters/capture"
+	ginadapter "jaygoel.com/go/plainoldanalytics/adapters/gin"
+	"jaygoel.com/go/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage/unimplemented_store"
 )
 
 // Example instruments a gin application. unimplemented_store.Unimplemented

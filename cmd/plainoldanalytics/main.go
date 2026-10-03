@@ -8,8 +8,8 @@ import (
 	"syscall"
 
 	"github.com/duckdb/duckdb-go/v2"
-	"jaygoel.com/plainoldanalytics"
-	"jaygoel.com/plainoldanalytics/storage/duckdb_store"
+	"jaygoel.com/go/plainoldanalytics"
+	"jaygoel.com/go/plainoldanalytics/storage/duckdb_store"
 )
 
 func myHandler(w http.ResponseWriter, r *http.Request) {

@@ -12,10 +12,10 @@ import (
 	"net/http"
 	"strings"
 
-	"jaygoel.com/plainoldanalytics/adapters/capture"
-	httpadapter "jaygoel.com/plainoldanalytics/adapters/http"
-	"jaygoel.com/plainoldanalytics/storage"
-	"jaygoel.com/plainoldanalytics/webapp"
+	"jaygoel.com/go/plainoldanalytics/adapters/capture"
+	httpadapter "jaygoel.com/go/plainoldanalytics/adapters/http"
+	"jaygoel.com/go/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/webapp"
 )
 
 // Analytics shares a store between request middleware and the dashboard.

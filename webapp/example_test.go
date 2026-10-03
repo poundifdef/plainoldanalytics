@@ -4,10 +4,10 @@ import (
 	"log"
 	"net/http"
 
-	"jaygoel.com/plainoldanalytics/adapters/capture"
-	"jaygoel.com/plainoldanalytics/storage"
-	"jaygoel.com/plainoldanalytics/storage/unimplemented_store"
-	"jaygoel.com/plainoldanalytics/webapp"
+	"jaygoel.com/go/plainoldanalytics/adapters/capture"
+	"jaygoel.com/go/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage/unimplemented_store"
+	"jaygoel.com/go/plainoldanalytics/webapp"
 )
 
 // ExampleNew mounts the analytics dashboard under /analytics. It is mounted

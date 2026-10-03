@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"jaygoel.com/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage"
 )
 
 // userPage aggregates every visitor (browser/device) sharing one user

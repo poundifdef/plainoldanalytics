@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"jaygoel.com/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage"
 )
 
 // rangeParam returns the current request's query string with "range"

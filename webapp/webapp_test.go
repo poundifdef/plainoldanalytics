@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
-	"jaygoel.com/plainoldanalytics/adapters/capture"
-	"jaygoel.com/plainoldanalytics/storage"
-	"jaygoel.com/plainoldanalytics/storage/unimplemented_store"
+	"jaygoel.com/go/plainoldanalytics/adapters/capture"
+	"jaygoel.com/go/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage/unimplemented_store"
 )
 
 type fakeStorage struct {

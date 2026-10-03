@@ -5,10 +5,10 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"jaygoel.com/plainoldanalytics/adapters/capture"
-	chiadapter "jaygoel.com/plainoldanalytics/adapters/chi"
-	"jaygoel.com/plainoldanalytics/storage"
-	"jaygoel.com/plainoldanalytics/storage/unimplemented_store"
+	"jaygoel.com/go/plainoldanalytics/adapters/capture"
+	chiadapter "jaygoel.com/go/plainoldanalytics/adapters/chi"
+	"jaygoel.com/go/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage/unimplemented_store"
 )
 
 // Example instruments a chi application. unimplemented_store.Unimplemented

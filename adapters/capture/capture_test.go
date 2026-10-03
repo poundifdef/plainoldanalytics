@@ -8,8 +8,8 @@ import (
 	"sync"
 	"testing"
 
-	"jaygoel.com/plainoldanalytics/storage"
-	"jaygoel.com/plainoldanalytics/storage/unimplemented_store"
+	"jaygoel.com/go/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage/unimplemented_store"
 )
 
 type recordingStorage struct {

@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"jaygoel.com/plainoldanalytics/storage/memory_store"
+	"jaygoel.com/go/plainoldanalytics/storage/memory_store"
 )
 
 func TestPlainOldAnalytics(t *testing.T) {

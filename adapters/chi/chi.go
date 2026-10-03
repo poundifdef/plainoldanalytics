@@ -14,7 +14,7 @@ import (
 	"strings"
 
 	"github.com/go-chi/chi/v5"
-	"jaygoel.com/plainoldanalytics/adapters/capture"
+	"jaygoel.com/go/plainoldanalytics/adapters/capture"
 )
 
 // Middleware records every request it serves via its Capturer. Construct

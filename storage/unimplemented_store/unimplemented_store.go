@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"time"
 
-	"jaygoel.com/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage"
 )
 
 // Unimplemented provides no-op defaults for the full storage.Storage

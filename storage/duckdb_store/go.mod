@@ -1,10 +1,10 @@
-module jaygoel.com/plainoldanalytics/storage/duckdb_store
+module jaygoel.com/go/plainoldanalytics/storage/duckdb_store
 
 go 1.26.4
 
 require (
 	github.com/duckdb/duckdb-go/v2 v2.10505.0
-	jaygoel.com/plainoldanalytics v0.0.0
+	jaygoel.com/go/plainoldanalytics v0.0.0
 )
 
 require (
@@ -31,12 +31,12 @@ require (
 	golang.org/x/telemetry v0.0.0-20260116145544-c6413dc483f5 // indirect
 	golang.org/x/tools v0.41.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
-	jaygoel.com/plainoldanalytics/adapters/http v0.0.0 // indirect
-	jaygoel.com/plainoldanalytics/webapp v0.0.0 // indirect
+	jaygoel.com/go/plainoldanalytics/adapters/http v0.0.0 // indirect
+	jaygoel.com/go/plainoldanalytics/webapp v0.0.0 // indirect
 )
 
-replace jaygoel.com/plainoldanalytics => ../..
+replace jaygoel.com/go/plainoldanalytics => ../..
 
-replace jaygoel.com/plainoldanalytics/adapters/http => ../../adapters/http
+replace jaygoel.com/go/plainoldanalytics/adapters/http => ../../adapters/http
 
-replace jaygoel.com/plainoldanalytics/webapp => ../../webapp
+replace jaygoel.com/go/plainoldanalytics/webapp => ../../webapp

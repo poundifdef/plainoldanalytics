@@ -21,7 +21,7 @@ import (
 	"time"
 
 	"github.com/duckdb/duckdb-go/v2"
-	"jaygoel.com/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage"
 )
 
 var createTables = []string{

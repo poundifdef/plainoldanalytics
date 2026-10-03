@@ -8,9 +8,9 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"jaygoel.com/plainoldanalytics/adapters/capture"
-	"jaygoel.com/plainoldanalytics/storage"
-	"jaygoel.com/plainoldanalytics/storage/memory_store"
+	"jaygoel.com/go/plainoldanalytics/adapters/capture"
+	"jaygoel.com/go/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage/memory_store"
 )
 
 func TestMiddleware(t *testing.T) {

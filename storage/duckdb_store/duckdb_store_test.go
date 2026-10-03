@@ -7,7 +7,7 @@ import (
 	"time"
 
 	goduckdb "github.com/duckdb/duckdb-go/v2"
-	"jaygoel.com/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage"
 )
 
 func newTestDB(t *testing.T) *DuckDB {

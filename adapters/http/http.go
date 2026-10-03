@@ -6,7 +6,7 @@ package http
 import (
 	"net/http"
 
-	"jaygoel.com/plainoldanalytics/adapters/capture"
+	"jaygoel.com/go/plainoldanalytics/adapters/capture"
 )
 
 // Middleware records every request it serves via its Capturer. Construct

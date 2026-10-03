@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"jaygoel.com/plainoldanalytics/adapters/capture"
+	"jaygoel.com/go/plainoldanalytics/adapters/capture"
 )
 
 // Middleware records every request it serves via its Capturer. Construct

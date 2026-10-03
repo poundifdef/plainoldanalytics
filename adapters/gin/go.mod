@@ -1,10 +1,10 @@
-module jaygoel.com/plainoldanalytics/adapters/gin
+module jaygoel.com/go/plainoldanalytics/adapters/gin
 
 go 1.26.4
 
 require (
 	github.com/gin-gonic/gin v1.12.0
-	jaygoel.com/plainoldanalytics v0.0.0
+	jaygoel.com/go/plainoldanalytics v0.0.0
 )
 
 require (
@@ -60,15 +60,15 @@ require (
 	golang.org/x/sys v0.41.0 // indirect
 	golang.org/x/text v0.34.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
-	jaygoel.com/plainoldanalytics/adapters/http v0.0.0 // indirect
-	jaygoel.com/plainoldanalytics/storage/duckdb_store v0.0.0 // indirect
-	jaygoel.com/plainoldanalytics/webapp v0.0.0 // indirect
+	jaygoel.com/go/plainoldanalytics/adapters/http v0.0.0 // indirect
+	jaygoel.com/go/plainoldanalytics/storage/duckdb_store v0.0.0 // indirect
+	jaygoel.com/go/plainoldanalytics/webapp v0.0.0 // indirect
 )
 
-replace jaygoel.com/plainoldanalytics => ../..
+replace jaygoel.com/go/plainoldanalytics => ../..
 
-replace jaygoel.com/plainoldanalytics/adapters/http => ../../adapters/http
+replace jaygoel.com/go/plainoldanalytics/adapters/http => ../../adapters/http
 
-replace jaygoel.com/plainoldanalytics/storage/duckdb_store => ../../storage/duckdb_store
+replace jaygoel.com/go/plainoldanalytics/storage/duckdb_store => ../../storage/duckdb_store
 
-replace jaygoel.com/plainoldanalytics/webapp => ../../webapp
+replace jaygoel.com/go/plainoldanalytics/webapp => ../../webapp

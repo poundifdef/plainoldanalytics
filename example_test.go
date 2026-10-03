@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 
-	"jaygoel.com/plainoldanalytics"
-	"jaygoel.com/plainoldanalytics/storage"
-	"jaygoel.com/plainoldanalytics/storage/unimplemented_store"
+	"jaygoel.com/go/plainoldanalytics"
+	"jaygoel.com/go/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage/unimplemented_store"
 )
 
 // ExampleNew wires analytics over any Storage implementation — this package

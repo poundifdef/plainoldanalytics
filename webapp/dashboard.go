@@ -9,7 +9,7 @@ import (
 	"slices"
 	"time"
 
-	"jaygoel.com/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage"
 )
 
 // dashRange is one selectable dashboard time window.

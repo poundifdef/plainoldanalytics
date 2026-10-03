@@ -18,8 +18,8 @@ import (
 	"strconv"
 	"strings"
 
-	"jaygoel.com/plainoldanalytics/adapters/capture"
-	"jaygoel.com/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/adapters/capture"
+	"jaygoel.com/go/plainoldanalytics/storage"
 )
 
 //go:embed templates

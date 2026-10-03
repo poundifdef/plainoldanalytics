@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"jaygoel.com/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage"
 )
 
 // visitorStat is one cell of the visitor page's stats row.

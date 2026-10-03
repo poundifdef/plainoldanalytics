@@ -6,8 +6,8 @@ package memory_store
 
 import (
 	goduckdb "github.com/duckdb/duckdb-go/v2"
-	"jaygoel.com/plainoldanalytics"
-	"jaygoel.com/plainoldanalytics/storage/duckdb_store"
+	"jaygoel.com/go/plainoldanalytics"
+	"jaygoel.com/go/plainoldanalytics/storage/duckdb_store"
 )
 
 // New returns a Storage backed by an in-memory DuckDB database. Close releases

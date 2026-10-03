@@ -3,7 +3,7 @@ package storage_test
 import (
 	"fmt"
 
-	"jaygoel.com/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage"
 )
 
 // ExampleNewConfig builds the configuration shared by the capture

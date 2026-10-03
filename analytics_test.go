@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"jaygoel.com/plainoldanalytics"
-	"jaygoel.com/plainoldanalytics/storage"
-	"jaygoel.com/plainoldanalytics/storage/memory_store"
+	"jaygoel.com/go/plainoldanalytics"
+	"jaygoel.com/go/plainoldanalytics/storage"
+	"jaygoel.com/go/plainoldanalytics/storage/memory_store"
 )
 
 func TestMiddleware(t *testing.T) {

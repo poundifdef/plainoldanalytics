@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"jaygoel.com/plainoldanalytics"
-	"jaygoel.com/plainoldanalytics/storage/memory_store"
+	"jaygoel.com/go/plainoldanalytics"
+	"jaygoel.com/go/plainoldanalytics/storage/memory_store"
 )
 
 func Example() {

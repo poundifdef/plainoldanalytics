@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	goduckdb "github.com/duckdb/duckdb-go/v2"
-	"jaygoel.com/plainoldanalytics/storage/duckdb_store"
+	"jaygoel.com/go/plainoldanalytics/storage/duckdb_store"
 )
 
 // ExampleNew opens a persistent analytics database. The caller owns the

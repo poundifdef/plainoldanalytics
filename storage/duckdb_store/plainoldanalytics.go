@@ -2,7 +2,7 @@ package duckdb_store
 
 import (
 	"github.com/duckdb/duckdb-go/v2"
-	"jaygoel.com/plainoldanalytics"
+	"jaygoel.com/go/plainoldanalytics"
 )
 
 // PlainOldAnalytics creates analytics backed by a DuckDB database on the

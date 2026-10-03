@@ -32,7 +32,7 @@ import (
     "log"
     "net/http"
 
-    "jaygoel.com/plainoldanalytics/storage/memory_store"
+    "jaygoel.com/go/plainoldanalytics/storage/memory_store"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -80,7 +80,7 @@ Plainoldanalytics uses DuckDB for persistent storage.
 ``` go
 import (
     "github.com/duckdb/duckdb-go/v2"
-    "jaygoel.com/plainoldanalytics/storage/duckdb_store"
+    "jaygoel.com/go/plainoldanalytics/storage/duckdb_store"
 )
 
 db, _ := duckdb.NewConnector("plainoldanalytics.duckdb", nil)
@@ -140,8 +140,8 @@ import (
     "net/http"
 
     "github.com/gin-gonic/gin"
-    ginadapter "jaygoel.com/plainoldanalytics/adapters/gin"
-    "jaygoel.com/plainoldanalytics/storage/memory_store"
+    ginadapter "jaygoel.com/go/plainoldanalytics/adapters/gin"
+    "jaygoel.com/go/plainoldanalytics/storage/memory_store"
 )
 
 func main() {
@@ -177,8 +177,8 @@ import (
     "net/http"
 
     "github.com/go-chi/chi/v5"
-    chiadapter "jaygoel.com/plainoldanalytics/adapters/chi"
-    "jaygoel.com/plainoldanalytics/storage/memory_store"
+    chiadapter "jaygoel.com/go/plainoldanalytics/adapters/chi"
+    "jaygoel.com/go/plainoldanalytics/storage/memory_store"
 )
 
 func main() {
